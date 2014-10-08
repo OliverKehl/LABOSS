@@ -92,7 +92,7 @@ def apply_guacamole_client(session,client_id,image,protocol = None):
         if protocol == None:
             result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').with_lockmode('update').first()
         else:
-            result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.protocol == protocol).with_lockmode('update').first()
+            result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.guacamole_client_name==image).filter(GuacamoleClientInfo.protocol == protocol).with_lockmode('update').first()
         if result != None:               
             
             result.user_info = client_id
@@ -168,7 +168,7 @@ def establish_guacamole_client(session,client_id, image, protocol=None):
 def create_guacamole_server(session,client_id,image,protocol):
     try:
         query = session.query(GuacamoleClientInfo)
-        result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.protocol==protocol).first()#there is idle guacamole client        
+        result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.guacamole_client_name==image).filter(GuacamoleClientInfo.protocol==protocol).first()#there is idle guacamole client        
         if result != None:
             session.close()
             return

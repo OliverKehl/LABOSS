@@ -92,7 +92,7 @@ def apply_guacamole_client(session,client_id,image,protocol = None):
         if protocol == None:
             result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').with_lockmode('update').first()
         else:
-            result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.guacamole_client_name==image).filter(GuacamoleClientInfo.protocol == protocol).with_lockmode('update').first()
+            result = query.filter(GuacamoleClientInfo.user_info == '').filter(GuacamoleClientInfo.image == '').filter(GuacamoleClientInfo.protocol == protocol).with_lockmode('update').first()
         if result != None:               
             
             result.user_info = client_id
@@ -186,6 +186,8 @@ def create_guacamole_server(session,client_id,image,protocol):
         session.rollback()
     finally:
         session.execute('UNLOCK TABLES')
+        session.commit()
+        return session
         #session.close()
     
 
